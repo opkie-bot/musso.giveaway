@@ -25,12 +25,12 @@ export default function PrizeGallery({ images }: PrizeGalleryProps) {
       </h2>
 
       {/* Main Image */}
-      <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-gray-100 mb-2">
+      <div className="relative aspect-square rounded-xl overflow-hidden bg-white mb-2">
         <Image
           src={images[activeIndex].image_url}
           alt="Prize"
           fill
-          className="object-cover"
+          className="object-contain"
           sizes="(max-width: 768px) 100vw, 300px"
         />
       </div>
