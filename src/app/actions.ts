@@ -391,3 +391,61 @@ export async function getParticipantSummary(): Promise<Array<{ patient: Patient;
 
   return Array.from(patientMap.values()).sort((a, b) => b.totalPoints - a.totalPoints)
 }
+
+// Admin: Search patients by name
+export async function searchPatients(query: string): Promise<Patient[]> {
+  if (!query || query.length < 2) return []
+
+  const { data } = await supabase
+    .from('patients')
+    .select('*')
+    .ilike('full_name', `%${query}%`)
+    .order('full_name')
+    .limit(10)
+
+  return (data as Patient[]) || []
+}
+
+// Admin: Get all patients
+export async function getAllPatients(): Promise<Patient[]> {
+  const { data } = await supabase
+    .from('patients')
+    .select('*')
+    .order('full_name')
+
+  return (data as Patient[]) || []
+}
+
+// Admin: Log entry for existing patient by ID
+export async function logEntryForPatient(
+  patientId: string,
+  actionType: ActionType
+): Promise<{ success: boolean; error?: string }> {
+  const giveaway = await getActiveGiveaway()
+  if (!giveaway) {
+    return { success: false, error: 'No active giveaway.' }
+  }
+
+  // For non-referral actions, check if already claimed
+  if (actionType !== 'referral') {
+    const alreadyClaimed = await hasClaimedAction(patientId, giveaway.id, actionType)
+    if (alreadyClaimed) {
+      return { success: false, error: `Patient has already claimed ${actionType} for this giveaway.` }
+    }
+  }
+
+  const { error } = await supabase
+    .from('entries')
+    .insert({
+      patient_id: patientId,
+      giveaway_id: giveaway.id,
+      action_type: actionType,
+      points_awarded: POINTS_MAP[actionType],
+    })
+
+  if (error) {
+    return { success: false, error: 'Failed to log entry.' }
+  }
+
+  return { success: true }
+}
