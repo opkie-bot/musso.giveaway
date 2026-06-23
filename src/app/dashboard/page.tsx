@@ -1,6 +1,7 @@
 import { getCurrentPatient, getActiveGiveaway, getPatientTotalPoints, getPatientEntries, logoutPatient, getActiveGiveawayImages } from '@/app/actions'
 import { redirect } from 'next/navigation'
 import ActionButton from '@/components/ActionButton'
+import PrizeGallery from '@/components/PrizeGallery'
 import Image from 'next/image'
 
 export default async function DashboardPage() {
@@ -94,62 +95,6 @@ export default async function DashboardPage() {
             </div>
           </div>
 
-          {/* Prize Images - Bento Grid */}
-          {prizeImages.length > 0 && (
-            <>
-              {prizeImages.length >= 1 && (
-                <div className="col-span-1 row-span-2 relative rounded-2xl overflow-hidden shadow-lg bg-gray-100 aspect-square">
-                  <Image
-                    src={prizeImages[0].image_url}
-                    alt="Prize"
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 50vw, 300px"
-                  />
-                  <div className="absolute top-2 left-2 bg-yellow-400 text-yellow-900 text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1">
-                    <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                    </svg>
-                    PRIZE
-                  </div>
-                </div>
-              )}
-              {prizeImages.length >= 2 && (
-                <div className="col-span-1 relative rounded-2xl overflow-hidden shadow-lg bg-gray-100 aspect-square">
-                  <Image
-                    src={prizeImages[1].image_url}
-                    alt="Prize"
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 50vw, 300px"
-                  />
-                </div>
-              )}
-              {prizeImages.length >= 3 && (
-                <div className="col-span-1 relative rounded-2xl overflow-hidden shadow-lg bg-gray-100 aspect-square">
-                  <Image
-                    src={prizeImages[2].image_url}
-                    alt="Prize"
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 50vw, 300px"
-                  />
-                </div>
-              )}
-              {prizeImages.length >= 4 && (
-                <div className="col-span-2 relative rounded-2xl overflow-hidden shadow-lg bg-gray-100 h-40">
-                  <Image
-                    src={prizeImages[3].image_url}
-                    alt="Prize"
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 600px"
-                  />
-                </div>
-              )}
-            </>
-          )}
-
           {/* Social Actions - 2 Column Grid */}
           <div className="col-span-1 bg-white rounded-2xl shadow-lg p-4">
             <ActionButton
@@ -229,6 +174,13 @@ export default async function DashboardPage() {
                   </div>
                 ))}
               </div>
+            </div>
+          )}
+
+          {/* Prize Gallery - Full Width at Bottom */}
+          {prizeImages.length > 0 && (
+            <div className="col-span-2">
+              <PrizeGallery images={prizeImages} />
             </div>
           )}
         </div>
