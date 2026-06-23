@@ -1,9 +1,10 @@
-import { isAdminAuthenticated, getAllGiveaways, getActiveGiveaway, getParticipantSummary, logoutAdmin } from '@/app/actions'
+import { isAdminAuthenticated, getAllGiveaways, getActiveGiveaway, getParticipantSummary, logoutAdmin, getGiveawayImages } from '@/app/actions'
 import AdminLoginForm from '@/components/AdminLoginForm'
 import GiveawayForm from '@/components/GiveawayForm'
 import GiveawayList from '@/components/GiveawayList'
 import EntryForm from '@/components/EntryForm'
 import ParticipantList from '@/components/ParticipantList'
+import GiveawayImageManager from '@/components/GiveawayImageManager'
 import Image from 'next/image'
 
 export default async function AdminPage() {
@@ -41,6 +42,7 @@ export default async function AdminPage() {
   const giveaways = await getAllGiveaways()
   const activeGiveaway = await getActiveGiveaway()
   const participants = await getParticipantSummary()
+  const activeGiveawayImages = activeGiveaway ? await getGiveawayImages(activeGiveaway.id) : []
 
   return (
     <main className="flex-1 px-4 py-6">
@@ -104,6 +106,17 @@ export default async function AdminPage() {
                 </svg>
                 <h3 className="text-lg font-semibold text-yellow-800">No Active Giveaway</h3>
                 <p className="text-yellow-700 text-sm mt-1">Create and activate a giveaway to get started</p>
+              </div>
+            )}
+
+            {/* Prize Images */}
+            {activeGiveaway && (
+              <div className="bg-white rounded-2xl shadow-lg p-6">
+                <h2 className="text-lg font-semibold text-[#1e3a5f] mb-4">Prize Images</h2>
+                <p className="text-gray-600 text-sm mb-4">
+                  Add images to showcase what patients can win. These will display on the patient dashboard.
+                </p>
+                <GiveawayImageManager giveaway={activeGiveaway} images={activeGiveawayImages} />
               </div>
             )}
 

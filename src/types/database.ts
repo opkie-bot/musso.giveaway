@@ -25,3 +25,11 @@ export interface Entry {
   points_awarded: number
   created_at: string
 }
+
+export interface GiveawayImage {
+  id: string
+  giveaway_id: string
+  image_url: string
+  display_order: number
+  created_at: string
+}

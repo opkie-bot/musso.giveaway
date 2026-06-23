@@ -66,3 +66,28 @@ CREATE POLICY "Allow anonymous entry creation" ON entries
 
 CREATE POLICY "Allow anonymous entry read" ON entries
     FOR SELECT TO anon USING (true);
+
+-- 4. Giveaway Images Table
+CREATE TABLE giveaway_images (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    giveaway_id UUID REFERENCES giveaways(id) ON DELETE CASCADE NOT NULL,
+    image_url TEXT NOT NULL,
+    display_order INT DEFAULT 0 NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
+);
+
+-- Index for giveaway images
+CREATE INDEX idx_giveaway_images_giveaway_id ON giveaway_images(giveaway_id);
+
+-- Enable RLS for giveaway_images
+ALTER TABLE giveaway_images ENABLE ROW LEVEL SECURITY;
+
+-- Policies for giveaway_images
+CREATE POLICY "Allow anonymous giveaway_images read" ON giveaway_images
+    FOR SELECT TO anon USING (true);
+
+CREATE POLICY "Allow anonymous giveaway_images insert" ON giveaway_images
+    FOR INSERT TO anon WITH CHECK (true);
+
+CREATE POLICY "Allow anonymous giveaway_images delete" ON giveaway_images
+    FOR DELETE TO anon USING (true);

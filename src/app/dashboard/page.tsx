@@ -1,6 +1,7 @@
-import { getCurrentPatient, getActiveGiveaway, getPatientTotalPoints, getPatientEntries, logoutPatient } from '@/app/actions'
+import { getCurrentPatient, getActiveGiveaway, getPatientTotalPoints, getPatientEntries, logoutPatient, getActiveGiveawayImages } from '@/app/actions'
 import { redirect } from 'next/navigation'
 import ActionButton from '@/components/ActionButton'
+import PrizeGallery from '@/components/PrizeGallery'
 import Image from 'next/image'
 
 export default async function DashboardPage() {
@@ -43,6 +44,7 @@ export default async function DashboardPage() {
 
   const totalPoints = await getPatientTotalPoints(patient.id, giveaway.id)
   const entries = await getPatientEntries(patient.id, giveaway.id)
+  const prizeImages = await getActiveGiveawayImages()
 
   const claimedActions = new Set(entries.map(e => e.action_type))
 
@@ -86,6 +88,13 @@ export default async function DashboardPage() {
             })}
           </div>
         </div>
+
+        {/* Prize Gallery */}
+        {prizeImages.length > 0 && (
+          <div className="mb-6">
+            <PrizeGallery images={prizeImages} />
+          </div>
+        )}
 
         {/* Action Center */}
         <div className="bg-white rounded-2xl shadow-lg p-6">

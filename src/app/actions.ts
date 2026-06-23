@@ -1,7 +1,7 @@
 'use server'
 
 import { supabase } from '@/lib/supabase'
-import type { ActionType, Patient, Giveaway, Entry } from '@/types/database'
+import type { ActionType, Patient, Giveaway, Entry, GiveawayImage } from '@/types/database'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
@@ -445,6 +445,71 @@ export async function logEntryForPatient(
 
   if (error) {
     return { success: false, error: 'Failed to log entry.' }
+  }
+
+  return { success: true }
+}
+
+// Get images for a giveaway
+export async function getGiveawayImages(giveawayId: string): Promise<GiveawayImage[]> {
+  const { data } = await supabase
+    .from('giveaway_images')
+    .select('*')
+    .eq('giveaway_id', giveawayId)
+    .order('display_order')
+
+  return (data as GiveawayImage[]) || []
+}
+
+// Get images for active giveaway
+export async function getActiveGiveawayImages(): Promise<GiveawayImage[]> {
+  const giveaway = await getActiveGiveaway()
+  if (!giveaway) return []
+
+  return getGiveawayImages(giveaway.id)
+}
+
+// Admin: Add image to giveaway
+export async function addGiveawayImage(
+  giveawayId: string,
+  imageUrl: string
+): Promise<{ success: boolean; error?: string }> {
+  // Get current max display order
+  const { data: existingImages } = await supabase
+    .from('giveaway_images')
+    .select('display_order')
+    .eq('giveaway_id', giveawayId)
+    .order('display_order', { ascending: false })
+    .limit(1)
+
+  const nextOrder = existingImages && existingImages.length > 0
+    ? (existingImages[0] as { display_order: number }).display_order + 1
+    : 0
+
+  const { error } = await supabase
+    .from('giveaway_images')
+    .insert({
+      giveaway_id: giveawayId,
+      image_url: imageUrl,
+      display_order: nextOrder,
+    })
+
+  if (error) {
+    return { success: false, error: 'Failed to add image.' }
+  }
+
+  return { success: true }
+}
+
+// Admin: Remove image from giveaway
+export async function removeGiveawayImage(imageId: string): Promise<{ success: boolean; error?: string }> {
+  const { error } = await supabase
+    .from('giveaway_images')
+    .delete()
+    .eq('id', imageId)
+
+  if (error) {
+    return { success: false, error: 'Failed to remove image.' }
   }
 
   return { success: true }
