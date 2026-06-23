@@ -50,7 +50,8 @@ export async function loginPatient(formData: FormData): Promise<{ success: boole
       .single()
 
     if (error) {
-      return { success: false, error: 'Failed to create patient record.' }
+      console.error('Supabase insert error:', error)
+      return { success: false, error: `Failed to create patient record: ${error.message}` }
     }
     patient = newPatient
   }
