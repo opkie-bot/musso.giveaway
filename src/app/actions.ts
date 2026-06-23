@@ -273,13 +273,14 @@ export async function deactivateGiveaway(giveawayId: string): Promise<{ success:
   return { success: true }
 }
 
-// Admin: Log referral for patient
-export async function logReferral(formData: FormData): Promise<{ success: boolean; error?: string }> {
+// Admin: Log any entry type for patient
+export async function logEntry(formData: FormData): Promise<{ success: boolean; error?: string }> {
   const fullName = formData.get('fullName')?.toString().trim()
   const dob = formData.get('dob')?.toString()
+  const actionType = formData.get('actionType')?.toString() as ActionType
 
-  if (!fullName || !dob) {
-    return { success: false, error: 'Please enter patient name and date of birth.' }
+  if (!fullName || !dob || !actionType) {
+    return { success: false, error: 'Please fill in all fields.' }
   }
 
   const giveaway = await getActiveGiveaway()
@@ -308,21 +309,35 @@ export async function logReferral(formData: FormData): Promise<{ success: boolea
     patient = newPatient
   }
 
-  // Log the referral entry
+  // For non-referral actions, check if already claimed
+  if (actionType !== 'referral') {
+    const alreadyClaimed = await hasClaimedAction(patient.id, giveaway.id, actionType)
+    if (alreadyClaimed) {
+      return { success: false, error: `Patient has already claimed ${actionType} for this giveaway.` }
+    }
+  }
+
+  // Log the entry
   const { error } = await supabase
     .from('entries')
     .insert({
       patient_id: patient.id,
       giveaway_id: giveaway.id,
-      action_type: 'referral',
-      points_awarded: POINTS_MAP.referral,
+      action_type: actionType,
+      points_awarded: POINTS_MAP[actionType],
     })
 
   if (error) {
-    return { success: false, error: 'Failed to log referral.' }
+    return { success: false, error: 'Failed to log entry.' }
   }
 
   return { success: true }
+}
+
+// Admin: Log referral for patient (legacy, kept for compatibility)
+export async function logReferral(formData: FormData): Promise<{ success: boolean; error?: string }> {
+  formData.set('actionType', 'referral')
+  return logEntry(formData)
 }
 
 // Admin: Get all entries for active giveaway with patient info

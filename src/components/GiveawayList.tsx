@@ -41,7 +41,7 @@ export default function GiveawayList({ giveaways }: GiveawayListProps) {
           key={giveaway.id}
           className={`p-4 rounded-xl border-2 ${
             giveaway.is_active
-              ? 'border-teal-200 bg-teal-50'
+              ? 'border-[#274c32]/30 bg-[#274c32]/10'
               : 'border-gray-100 bg-gray-50'
           }`}
         >
@@ -50,7 +50,7 @@ export default function GiveawayList({ giveaways }: GiveawayListProps) {
               <div className="flex items-center gap-2">
                 <h3 className="font-medium text-gray-900 truncate">{giveaway.title}</h3>
                 {giveaway.is_active && (
-                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-teal-100 text-teal-800">
+                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#274c32]/20 text-[#274c32]">
                     Active
                   </span>
                 )}
@@ -65,7 +65,7 @@ export default function GiveawayList({ giveaways }: GiveawayListProps) {
               className={`flex-shrink-0 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                 giveaway.is_active
                   ? 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                  : 'bg-teal-600 text-white hover:bg-teal-700'
+                  : 'bg-[#274c32] text-white hover:bg-[#1a3322]'
               } disabled:opacity-50`}
             >
               {loadingId === giveaway.id

@@ -3,6 +3,14 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Musso Brand Colors */
+  --musso-navy: #1e3a5f;
+  --musso-navy-light: #2a4a73;
+  --musso-navy-dark: #152a45;
+  --musso-green: #274c32;
+  --musso-green-light: #3d6b4a;
+  --musso-green-dark: #1a3322;
 }
 
 @theme inline {
@@ -10,6 +18,10 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* Custom brand colors for Tailwind */
+  --color-musso-navy: var(--musso-navy);
+  --color-musso-green: var(--musso-green);
 }
 
 body {

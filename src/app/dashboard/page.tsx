@@ -1,6 +1,7 @@
 import { getCurrentPatient, getActiveGiveaway, getPatientTotalPoints, getPatientEntries, logoutPatient } from '@/app/actions'
 import { redirect } from 'next/navigation'
 import ActionButton from '@/components/ActionButton'
+import Image from 'next/image'
 
 export default async function DashboardPage() {
   const patient = await getCurrentPatient()
@@ -9,8 +10,35 @@ export default async function DashboardPage() {
   }
 
   const giveaway = await getActiveGiveaway()
+
+  // If no active giveaway, show a message instead of redirecting
   if (!giveaway) {
-    redirect('/')
+    return (
+      <main className="flex-1 flex flex-col items-center justify-center px-4 py-8">
+        <div className="w-full max-w-md text-center">
+          <Image
+            src="/logo.webp"
+            alt="Musso Family Dentistry"
+            width={180}
+            height={54}
+            className="mx-auto mb-6"
+          />
+          <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-6 mb-6">
+            <svg className="w-12 h-12 text-yellow-500 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            <h2 className="text-lg font-semibold text-yellow-800">No Active Giveaway</h2>
+            <p className="text-yellow-700 text-sm mt-1">Check back soon for our next quarterly giveaway!</p>
+          </div>
+          <p className="text-gray-600 mb-4">Welcome, {patient.full_name}!</p>
+          <form action={logoutPatient}>
+            <button type="submit" className="text-[#274c32] hover:text-[#1a3322] font-medium">
+              Logout
+            </button>
+          </form>
+        </div>
+      </main>
+    )
   }
 
   const totalPoints = await getPatientTotalPoints(patient.id, giveaway.id)
@@ -24,7 +52,7 @@ export default async function DashboardPage() {
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-xl font-bold text-gray-900">Welcome back!</h1>
+            <h1 className="text-xl font-bold text-[#1e3a5f]">Welcome back!</h1>
             <p className="text-gray-600 text-sm">{patient.full_name}</p>
           </div>
           <form action={logoutPatient}>
@@ -38,7 +66,7 @@ export default async function DashboardPage() {
         </div>
 
         {/* Points Card */}
-        <div className="bg-gradient-to-br from-teal-500 to-teal-600 rounded-2xl p-6 text-white mb-6 shadow-lg">
+        <div className="bg-gradient-to-br from-[#274c32] to-[#1a3322] rounded-2xl p-6 text-white mb-6 shadow-lg">
           <div className="flex items-center gap-2 mb-2 opacity-90">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
@@ -46,8 +74,8 @@ export default async function DashboardPage() {
             <span className="text-sm font-medium">{giveaway.title}</span>
           </div>
           <div className="text-5xl font-bold mb-1">{totalPoints}</div>
-          <div className="text-teal-100">Total Entries</div>
-          <div className="mt-4 pt-4 border-t border-teal-400/30 text-sm text-teal-100">
+          <div className="text-green-100">Total Entries</div>
+          <div className="mt-4 pt-4 border-t border-green-400/30 text-sm text-green-100">
             <svg className="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
@@ -61,7 +89,7 @@ export default async function DashboardPage() {
 
         {/* Action Center */}
         <div className="bg-white rounded-2xl shadow-lg p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Earn More Entries</h2>
+          <h2 className="text-lg font-semibold text-[#1e3a5f] mb-4">Earn More Entries</h2>
           <p className="text-gray-600 text-sm mb-6">
             Complete actions below to earn more entries in our quarterly giveaway!
           </p>
@@ -109,8 +137,8 @@ export default async function DashboardPage() {
         </div>
 
         {/* Referral Note */}
-        <div className="mt-6 bg-blue-50 rounded-2xl p-4 text-center">
-          <p className="text-blue-800 text-sm">
+        <div className="mt-6 bg-[#1e3a5f]/10 rounded-2xl p-4 text-center">
+          <p className="text-[#1e3a5f] text-sm">
             <span className="font-semibold">Refer a friend!</span><br />
             Ask our front desk to log your referral for <strong>+10 entries</strong> each!
           </p>
@@ -119,7 +147,7 @@ export default async function DashboardPage() {
         {/* Entry History */}
         {entries.length > 0 && (
           <div className="mt-6 bg-white rounded-2xl shadow-lg p-6">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">Your Activity</h2>
+            <h2 className="text-lg font-semibold text-[#1e3a5f] mb-4">Your Activity</h2>
             <div className="space-y-3">
               {entries.map((entry) => (
                 <div key={entry.id} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
@@ -137,7 +165,7 @@ export default async function DashboardPage() {
                       })}
                     </span>
                   </div>
-                  <span className="text-teal-600 font-semibold">+{entry.points_awarded}</span>
+                  <span className="text-[#274c32] font-semibold">+{entry.points_awarded}</span>
                 </div>
               ))}
             </div>

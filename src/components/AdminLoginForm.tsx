@@ -35,7 +35,7 @@ export default function AdminLoginForm() {
           name="password"
           required
           autoComplete="current-password"
-          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-gray-500 focus:ring-2 focus:ring-gray-200 outline-none transition-all text-gray-900"
+          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#1e3a5f] focus:ring-2 focus:ring-blue-200 outline-none transition-all text-gray-900"
           placeholder="Enter admin password"
         />
       </div>
@@ -49,7 +49,7 @@ export default function AdminLoginForm() {
       <button
         type="submit"
         disabled={isLoading}
-        className="w-full bg-gray-800 hover:bg-gray-900 disabled:bg-gray-400 text-white font-medium py-3 px-4 rounded-xl transition-colors"
+        className="w-full bg-[#1e3a5f] hover:bg-[#152a45] disabled:bg-[#2a4a73] text-white font-medium py-3 px-4 rounded-xl transition-colors"
       >
         {isLoading ? 'Logging in...' : 'Login'}
       </button>

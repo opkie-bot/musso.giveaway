@@ -31,7 +31,7 @@ export default function LoginForm() {
           name="fullName"
           required
           autoComplete="name"
-          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-teal-500 focus:ring-2 focus:ring-teal-200 outline-none transition-all text-gray-900"
+          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#274c32] focus:ring-2 focus:ring-green-200 outline-none transition-all text-gray-900"
           placeholder="John Smith"
         />
       </div>
@@ -45,7 +45,7 @@ export default function LoginForm() {
           id="dob"
           name="dob"
           required
-          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-teal-500 focus:ring-2 focus:ring-teal-200 outline-none transition-all text-gray-900"
+          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#274c32] focus:ring-2 focus:ring-green-200 outline-none transition-all text-gray-900"
         />
       </div>
 
@@ -58,7 +58,7 @@ export default function LoginForm() {
       <button
         type="submit"
         disabled={isLoading}
-        className="w-full bg-teal-600 hover:bg-teal-700 disabled:bg-teal-400 text-white font-medium py-3 px-4 rounded-xl transition-colors"
+        className="w-full bg-[#274c32] hover:bg-[#1a3322] disabled:bg-[#3d6b4a] text-white font-medium py-3 px-4 rounded-xl transition-colors"
       >
         {isLoading ? 'Loading...' : 'View My Entries'}
       </button>

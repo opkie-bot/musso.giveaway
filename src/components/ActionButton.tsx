@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { claimAction } from '@/app/actions'
 import type { ActionType } from '@/types/database'
 
@@ -16,6 +17,7 @@ interface ActionButtonProps {
 export default function ActionButton({ actionType, label, points, url, isClaimed, icon }: ActionButtonProps) {
   const [claimed, setClaimed] = useState(isClaimed)
   const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter()
 
   async function handleClick() {
     // Always open the external link
@@ -29,6 +31,8 @@ export default function ActionButton({ actionType, label, points, url, isClaimed
 
     if (result.success && !result.alreadyClaimed) {
       setClaimed(true)
+      // Refresh the page data to update the total points
+      router.refresh()
     }
     setIsLoading(false)
   }
@@ -39,26 +43,26 @@ export default function ActionButton({ actionType, label, points, url, isClaimed
       disabled={isLoading}
       className={`w-full flex items-center gap-4 p-4 rounded-xl border-2 transition-all ${
         claimed
-          ? 'border-green-200 bg-green-50'
-          : 'border-gray-100 hover:border-teal-200 hover:bg-teal-50'
+          ? 'border-[#274c32]/30 bg-[#274c32]/10'
+          : 'border-gray-100 hover:border-[#274c32]/30 hover:bg-[#274c32]/5'
       }`}
     >
       <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${
-        claimed ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-600'
+        claimed ? 'bg-[#274c32]/20 text-[#274c32]' : 'bg-gray-100 text-gray-600'
       }`}>
         {icon}
       </div>
       <div className="flex-1 text-left">
-        <div className={`font-medium ${claimed ? 'text-green-800' : 'text-gray-900'}`}>
+        <div className={`font-medium ${claimed ? 'text-[#274c32]' : 'text-gray-900'}`}>
           {label}
         </div>
-        <div className={`text-sm ${claimed ? 'text-green-600' : 'text-gray-500'}`}>
+        <div className={`text-sm ${claimed ? 'text-[#274c32]' : 'text-gray-500'}`}>
           {claimed ? 'Completed' : `+${points} ${points === 1 ? 'entry' : 'entries'}`}
         </div>
       </div>
       <div className="flex-shrink-0">
         {claimed ? (
-          <svg className="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-6 h-6 text-[#274c32]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
         ) : (

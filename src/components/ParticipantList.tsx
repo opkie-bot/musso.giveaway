@@ -35,7 +35,7 @@ export default function ParticipantList({ participants }: ParticipantListProps) 
               {participant.entries.length} action{participant.entries.length !== 1 ? 's' : ''}
             </div>
           </div>
-          <div className="flex-shrink-0 text-teal-600 font-bold">
+          <div className="flex-shrink-0 text-[#274c32] font-bold">
             {participant.totalPoints} pts
           </div>
         </div>
