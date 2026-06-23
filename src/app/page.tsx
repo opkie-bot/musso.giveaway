@@ -66,12 +66,15 @@ export default async function HomePage() {
 
         {/* Login Form */}
         <div className="bg-white rounded-2xl shadow-lg p-6">
-          <h3 className="text-lg font-semibold text-[#1e3a5f] mb-4">Check Your Entries</h3>
+          <h3 className="text-lg font-semibold text-[#1e3a5f] mb-1">Enter to Win or Check Entries</h3>
+          <p className="text-slate-500 text-sm mb-4">
+            New here? Enter your info to create an account and start earning entries!
+          </p>
           <LoginForm />
         </div>
 
         {/* Footer */}
-        <p className="text-center text-gray-500 text-xs mt-6">
+        <p className="text-center text-slate-400 text-xs mt-6">
           Enter your details as they appear in our records
         </p>
       </div>
