@@ -15,6 +15,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Musso Family Dentistry - Quarterly Giveaway",
   description: "Enter our quarterly giveaway and earn points for rewards!",
+  icons: {
+    icon: '/favicon.svg',
+  },
 };
 
 export default function RootLayout({
