@@ -1,7 +1,6 @@
 import { getCurrentPatient, getActiveGiveaway, getPatientTotalPoints, getPatientEntries, logoutPatient, getActiveGiveawayImages } from '@/app/actions'
 import { redirect } from 'next/navigation'
 import ActionButton from '@/components/ActionButton'
-import PrizeGallery from '@/components/PrizeGallery'
 import Image from 'next/image'
 
 export default async function DashboardPage() {
@@ -50,7 +49,7 @@ export default async function DashboardPage() {
 
   return (
     <main className="flex-1 flex flex-col px-4 py-6">
-      <div className="w-full max-w-md mx-auto">
+      <div className="w-full max-w-2xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
@@ -67,46 +66,95 @@ export default async function DashboardPage() {
           </form>
         </div>
 
-        {/* Points Card */}
-        <div className="bg-gradient-to-br from-[#274c32] to-[#1a3322] rounded-2xl p-6 text-white mb-6 shadow-lg">
-          <div className="flex items-center gap-2 mb-2 opacity-90">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
-            </svg>
-            <span className="text-sm font-medium">{giveaway.title}</span>
+        {/* Bento Grid */}
+        <div className="grid grid-cols-2 gap-4">
+          {/* Points Card - Full Width */}
+          <div className="col-span-2 bg-gradient-to-br from-[#274c32] to-[#1a3322] rounded-2xl p-6 text-white shadow-lg">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="flex items-center gap-2 mb-2 opacity-90">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
+                  </svg>
+                  <span className="text-sm font-medium">{giveaway.title}</span>
+                </div>
+                <div className="text-5xl font-bold mb-1">{totalPoints}</div>
+                <div className="text-green-100">Total Entries</div>
+              </div>
+              <div className="text-right text-sm text-green-100">
+                <svg className="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                Ends<br />
+                {new Date(giveaway.end_date).toLocaleDateString('en-US', {
+                  month: 'short',
+                  day: 'numeric'
+                })}
+              </div>
+            </div>
           </div>
-          <div className="text-5xl font-bold mb-1">{totalPoints}</div>
-          <div className="text-green-100">Total Entries</div>
-          <div className="mt-4 pt-4 border-t border-green-400/30 text-sm text-green-100">
-            <svg className="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
-            Ends {new Date(giveaway.end_date).toLocaleDateString('en-US', {
-              month: 'long',
-              day: 'numeric',
-              year: 'numeric'
-            })}
-          </div>
-        </div>
 
-        {/* Prize Gallery */}
-        {prizeImages.length > 0 && (
-          <div className="mb-6">
-            <PrizeGallery images={prizeImages} />
-          </div>
-        )}
+          {/* Prize Images - Bento Grid */}
+          {prizeImages.length > 0 && (
+            <>
+              {prizeImages.length >= 1 && (
+                <div className="col-span-1 row-span-2 relative rounded-2xl overflow-hidden shadow-lg bg-gray-100 aspect-square">
+                  <Image
+                    src={prizeImages[0].image_url}
+                    alt="Prize"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 50vw, 300px"
+                  />
+                  <div className="absolute top-2 left-2 bg-yellow-400 text-yellow-900 text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1">
+                    <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                    PRIZE
+                  </div>
+                </div>
+              )}
+              {prizeImages.length >= 2 && (
+                <div className="col-span-1 relative rounded-2xl overflow-hidden shadow-lg bg-gray-100 aspect-square">
+                  <Image
+                    src={prizeImages[1].image_url}
+                    alt="Prize"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 50vw, 300px"
+                  />
+                </div>
+              )}
+              {prizeImages.length >= 3 && (
+                <div className="col-span-1 relative rounded-2xl overflow-hidden shadow-lg bg-gray-100 aspect-square">
+                  <Image
+                    src={prizeImages[2].image_url}
+                    alt="Prize"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 50vw, 300px"
+                  />
+                </div>
+              )}
+              {prizeImages.length >= 4 && (
+                <div className="col-span-2 relative rounded-2xl overflow-hidden shadow-lg bg-gray-100 h-40">
+                  <Image
+                    src={prizeImages[3].image_url}
+                    alt="Prize"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 600px"
+                  />
+                </div>
+              )}
+            </>
+          )}
 
-        {/* Action Center */}
-        <div className="bg-white rounded-2xl shadow-lg p-6">
-          <h2 className="text-lg font-semibold text-[#1e3a5f] mb-4">Earn More Entries</h2>
-          <p className="text-gray-600 text-sm mb-6">
-            Complete actions below to earn more entries in our quarterly giveaway!
-          </p>
-
-          <div className="space-y-4">
+          {/* Social Actions - 2 Column Grid */}
+          <div className="col-span-1 bg-white rounded-2xl shadow-lg p-4">
             <ActionButton
               actionType="facebook"
-              label="Follow us on Facebook"
+              label="Facebook"
               points={1}
               url="https://www.facebook.com/mussofamilydentistry"
               isClaimed={claimedActions.has('facebook')}
@@ -116,10 +164,12 @@ export default async function DashboardPage() {
                 </svg>
               }
             />
+          </div>
 
+          <div className="col-span-1 bg-white rounded-2xl shadow-lg p-4">
             <ActionButton
               actionType="instagram"
-              label="Follow us on Instagram"
+              label="Instagram"
               points={1}
               url="https://www.instagram.com/mussofamilydentistry"
               isClaimed={claimedActions.has('instagram')}
@@ -129,7 +179,10 @@ export default async function DashboardPage() {
                 </svg>
               }
             />
+          </div>
 
+          {/* Google Review - Full Width */}
+          <div className="col-span-2 bg-white rounded-2xl shadow-lg p-4">
             <ActionButton
               actionType="review"
               label="Leave a Google Review"
@@ -143,43 +196,42 @@ export default async function DashboardPage() {
               }
             />
           </div>
-        </div>
 
-        {/* Referral Note */}
-        <div className="mt-6 bg-[#1e3a5f]/10 rounded-2xl p-4 text-center">
-          <p className="text-[#1e3a5f] text-sm">
-            <span className="font-semibold">Refer a friend!</span><br />
-            Ask our front desk to log your referral for <strong>+10 entries</strong> each!
-          </p>
-        </div>
-
-        {/* Entry History */}
-        {entries.length > 0 && (
-          <div className="mt-6 bg-white rounded-2xl shadow-lg p-6">
-            <h2 className="text-lg font-semibold text-[#1e3a5f] mb-4">Your Activity</h2>
-            <div className="space-y-3">
-              {entries.map((entry) => (
-                <div key={entry.id} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
-                  <div>
-                    <span className="text-gray-900 font-medium capitalize">
-                      {entry.action_type === 'facebook' && 'Facebook Follow'}
-                      {entry.action_type === 'instagram' && 'Instagram Follow'}
-                      {entry.action_type === 'review' && 'Google Review'}
-                      {entry.action_type === 'referral' && 'Patient Referral'}
-                    </span>
-                    <span className="text-gray-500 text-sm block">
-                      {new Date(entry.created_at).toLocaleDateString('en-US', {
-                        month: 'short',
-                        day: 'numeric'
-                      })}
-                    </span>
-                  </div>
-                  <span className="text-[#274c32] font-semibold">+{entry.points_awarded}</span>
-                </div>
-              ))}
-            </div>
+          {/* Referral Note - Full Width */}
+          <div className="col-span-2 bg-[#1e3a5f] rounded-2xl p-4 text-center text-white">
+            <p className="text-sm">
+              <span className="font-semibold">Refer a friend!</span> Ask our front desk to log your referral for <strong>+10 entries</strong> each!
+            </p>
           </div>
-        )}
+
+          {/* Entry History - Full Width */}
+          {entries.length > 0 && (
+            <div className="col-span-2 bg-white rounded-2xl shadow-lg p-4">
+              <h2 className="text-sm font-semibold text-[#1e3a5f] mb-3">Your Activity</h2>
+              <div className="space-y-2">
+                {entries.slice(0, 5).map((entry) => (
+                  <div key={entry.id} className="flex items-center justify-between py-1.5 border-b border-gray-100 last:border-0">
+                    <div className="flex items-center gap-2">
+                      <span className="text-gray-700 text-sm font-medium">
+                        {entry.action_type === 'facebook' && 'Facebook'}
+                        {entry.action_type === 'instagram' && 'Instagram'}
+                        {entry.action_type === 'review' && 'Google Review'}
+                        {entry.action_type === 'referral' && 'Referral'}
+                      </span>
+                      <span className="text-gray-400 text-xs">
+                        {new Date(entry.created_at).toLocaleDateString('en-US', {
+                          month: 'short',
+                          day: 'numeric'
+                        })}
+                      </span>
+                    </div>
+                    <span className="text-[#274c32] font-semibold text-sm">+{entry.points_awarded}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </main>
   )
