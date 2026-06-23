@@ -66,21 +66,6 @@ export default async function AdminPage() {
         <div className="grid gap-6 lg:grid-cols-2">
           {/* Left Column */}
           <div className="space-y-6">
-            {/* Create Giveaway */}
-            <div className="bg-white rounded-2xl shadow-lg p-6">
-              <h2 className="text-lg font-semibold text-[#1e3a5f] mb-4">Create New Giveaway</h2>
-              <GiveawayForm />
-            </div>
-
-            {/* Giveaway List */}
-            <div className="bg-white rounded-2xl shadow-lg p-6">
-              <h2 className="text-lg font-semibold text-[#1e3a5f] mb-4">All Giveaways</h2>
-              <GiveawayList giveaways={giveaways} />
-            </div>
-          </div>
-
-          {/* Right Column */}
-          <div className="space-y-6">
             {/* Active Giveaway Status */}
             {activeGiveaway ? (
               <div className="bg-gradient-to-br from-[#274c32] to-[#1a3322] rounded-2xl p-6 text-white shadow-lg">
@@ -109,6 +94,26 @@ export default async function AdminPage() {
               </div>
             )}
 
+            {/* Log Entry */}
+            <div className="bg-white rounded-2xl shadow-lg p-6">
+              <h2 className="text-lg font-semibold text-[#1e3a5f] mb-4">Log Patient Entry</h2>
+              <p className="text-gray-600 text-sm mb-4">
+                Award entries to patients for referrals, social follows, or reviews.
+              </p>
+              <EntryForm hasActiveGiveaway={!!activeGiveaway} />
+            </div>
+
+            {/* Leaderboard */}
+            {activeGiveaway && participants.length > 0 && (
+              <div className="bg-white rounded-2xl shadow-lg p-6">
+                <h2 className="text-lg font-semibold text-[#1e3a5f] mb-4">Leaderboard</h2>
+                <ParticipantList participants={participants} />
+              </div>
+            )}
+          </div>
+
+          {/* Right Column */}
+          <div className="space-y-6">
             {/* Prize Images */}
             {activeGiveaway && (
               <div className="bg-white rounded-2xl shadow-lg p-6">
@@ -120,22 +125,17 @@ export default async function AdminPage() {
               </div>
             )}
 
-            {/* Log Entry */}
+            {/* Create Giveaway */}
             <div className="bg-white rounded-2xl shadow-lg p-6">
-              <h2 className="text-lg font-semibold text-[#1e3a5f] mb-4">Log Patient Entry</h2>
-              <p className="text-gray-600 text-sm mb-4">
-                Award entries to patients for referrals, social follows, or reviews.
-              </p>
-              <EntryForm hasActiveGiveaway={!!activeGiveaway} />
+              <h2 className="text-lg font-semibold text-[#1e3a5f] mb-4">Create New Giveaway</h2>
+              <GiveawayForm />
             </div>
 
-            {/* Participants */}
-            {activeGiveaway && participants.length > 0 && (
-              <div className="bg-white rounded-2xl shadow-lg p-6">
-                <h2 className="text-lg font-semibold text-[#1e3a5f] mb-4">Leaderboard</h2>
-                <ParticipantList participants={participants} />
-              </div>
-            )}
+            {/* Giveaway List */}
+            <div className="bg-white rounded-2xl shadow-lg p-6">
+              <h2 className="text-lg font-semibold text-[#1e3a5f] mb-4">All Giveaways</h2>
+              <GiveawayList giveaways={giveaways} />
+            </div>
           </div>
         </div>
       </div>
