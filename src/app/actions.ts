@@ -238,6 +238,37 @@ export async function createGiveaway(formData: FormData): Promise<{ success: boo
   return { success: true }
 }
 
+// Admin: Update giveaway
+export async function updateGiveaway(
+  giveawayId: string,
+  formData: FormData
+): Promise<{ success: boolean; error?: string }> {
+  const title = formData.get('title')?.toString().trim()
+  const description = formData.get('description')?.toString().trim() || null
+  const startDate = formData.get('startDate')?.toString()
+  const endDate = formData.get('endDate')?.toString()
+
+  if (!title || !startDate || !endDate) {
+    return { success: false, error: 'Please fill in all required fields.' }
+  }
+
+  const { error } = await supabase
+    .from('giveaways')
+    .update({
+      title,
+      description,
+      start_date: startDate,
+      end_date: endDate,
+    })
+    .eq('id', giveawayId)
+
+  if (error) {
+    return { success: false, error: 'Failed to update giveaway.' }
+  }
+
+  return { success: true }
+}
+
 // Admin: Toggle giveaway active status
 export async function toggleGiveawayActive(giveawayId: string): Promise<{ success: boolean; error?: string }> {
   // First, set all giveaways to inactive
