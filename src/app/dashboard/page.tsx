@@ -132,7 +132,7 @@ export default async function DashboardPage() {
               <div className="flex-1">
                 <p className="text-base font-semibold text-white">Refer a Friend</p>
                 <p className="text-sm text-blue-200/80 mt-0.5">
-                  You each get <span className="font-bold text-white">$50</span> + <span className="font-bold text-white">10 entries</span>! Ask our front desk to log it.
+                  You both get <span className="font-bold text-white">$50</span> and you earn <span className="font-bold text-white">+10 entries</span>! Ask our front desk to log it.
                 </p>
               </div>
             </div>
