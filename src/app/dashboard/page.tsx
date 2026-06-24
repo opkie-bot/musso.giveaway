@@ -115,11 +115,7 @@ export default async function DashboardPage() {
           </div>
 
           {/* Referral Banner - Premium Navy - 10 entries (Highest Value) */}
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#243f5c] via-[#1e3a5f] to-[#172d4a] px-6 py-5 text-white shadow-lg shadow-blue-900/15 ring-2 ring-amber-400/50">
-            {/* High value badge */}
-            <div className="absolute -top-2 -right-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm z-10">
-              HIGHEST VALUE
-            </div>
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#243f5c] via-[#1e3a5f] to-[#172d4a] px-6 py-5 text-white shadow-lg shadow-blue-900/15">
             {/* Subtle shine effect */}
             <div className="absolute inset-0 opacity-20">
               <div className="absolute top-0 right-0 w-32 h-32" style={{
@@ -136,7 +132,7 @@ export default async function DashboardPage() {
               <div className="flex-1">
                 <p className="text-base font-semibold text-white">Refer a Friend</p>
                 <p className="text-sm text-blue-200/80 mt-0.5">
-                  Ask our front desk to log your referral for <span className="font-bold text-white">+10 entries</span> each!
+                  You each get <span className="font-bold text-white">$50</span> + <span className="font-bold text-white">10 entries</span>! Ask our front desk to log it.
                 </p>
               </div>
             </div>

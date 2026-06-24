@@ -54,13 +54,6 @@ export default function ActionButton({ actionType, label, points, url, isClaimed
           : `bg-white border border-slate-200/80 shadow-sm hover:shadow-md hover:-translate-y-0.5 hover:border-slate-300/80 ${getFeaturedUnclaimedStyles()}`
       }`}
     >
-      {/* Featured badge */}
-      {featured && !claimed && (
-        <div className="absolute -top-2 -right-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm">
-          HIGH VALUE
-        </div>
-      )}
-
       <div className={`flex-shrink-0 w-11 h-11 rounded-full flex items-center justify-center transition-all duration-200 ${
         claimed
           ? 'bg-gradient-to-br from-emerald-100 to-green-100 text-emerald-600'
