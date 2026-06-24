@@ -114,7 +114,49 @@ export default async function DashboardPage() {
             </div>
           </div>
 
-          {/* Action Cards - Unified Stack */}
+          {/* High Value Actions */}
+          <div className="space-y-3">
+            {/* Google Review - 5 entries */}
+            <ActionButton
+              actionType="review"
+              label="Leave a Google Review"
+              points={5}
+              url="https://g.page/mussofamilydentistry/review"
+              isClaimed={claimedActions.has('review')}
+              featured
+              icon={
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                </svg>
+              }
+            />
+          </div>
+
+          {/* Referral Banner - Premium Navy - 10 entries */}
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#243f5c] via-[#1e3a5f] to-[#172d4a] px-6 py-5 text-white shadow-lg shadow-blue-900/15">
+            {/* Subtle shine effect */}
+            <div className="absolute inset-0 opacity-20">
+              <div className="absolute top-0 right-0 w-32 h-32" style={{
+                background: 'radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%)'
+              }} />
+            </div>
+
+            <div className="relative flex items-center gap-4">
+              <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-white/10 backdrop-blur-sm flex items-center justify-center">
+                <svg className="w-6 h-6 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                </svg>
+              </div>
+              <div className="flex-1">
+                <p className="text-base font-semibold text-white">Refer a Friend</p>
+                <p className="text-sm text-blue-200/80 mt-0.5">
+                  Ask our front desk to log your referral for <span className="font-bold text-white">+10 entries</span> each!
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Social Follows - Lower value */}
           <div className="space-y-3">
             <ActionButton
               actionType="facebook"
@@ -141,43 +183,6 @@ export default async function DashboardPage() {
                 </svg>
               }
             />
-
-            <ActionButton
-              actionType="review"
-              label="Leave a Google Review"
-              points={5}
-              url="https://g.page/mussofamilydentistry/review"
-              isClaimed={claimedActions.has('review')}
-              icon={
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-                </svg>
-              }
-            />
-          </div>
-
-          {/* Referral Banner - Premium Navy */}
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#243f5c] via-[#1e3a5f] to-[#172d4a] px-6 py-5 text-white shadow-lg shadow-blue-900/15">
-            {/* Subtle shine effect */}
-            <div className="absolute inset-0 opacity-20">
-              <div className="absolute top-0 right-0 w-32 h-32" style={{
-                background: 'radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%)'
-              }} />
-            </div>
-
-            <div className="relative flex items-center gap-4">
-              <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-white/10 backdrop-blur-sm flex items-center justify-center">
-                <svg className="w-6 h-6 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-                </svg>
-              </div>
-              <div className="flex-1">
-                <p className="text-base font-semibold text-white">Refer a Friend</p>
-                <p className="text-sm text-blue-200/80 mt-0.5">
-                  Ask our front desk to log your referral for <span className="font-bold text-white">+10 entries</span> each!
-                </p>
-              </div>
-            </div>
           </div>
 
           {/* Activity History */}
