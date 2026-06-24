@@ -77,6 +77,16 @@ export default async function HomePage() {
         <p className="text-center text-slate-400 text-xs mt-6">
           Enter your details as they appear in our records
         </p>
+
+        {/* Admin Link */}
+        <div className="text-center mt-8">
+          <a
+            href="/admin"
+            className="text-slate-400 hover:text-slate-600 text-xs transition-colors"
+          >
+            Staff Login
+          </a>
+        </div>
       </div>
     </main>
   )
