@@ -304,6 +304,31 @@ export async function deactivateGiveaway(giveawayId: string): Promise<{ success:
   return { success: true }
 }
 
+// Admin: Delete patient and all their entries
+export async function deletePatient(patientId: string): Promise<{ success: boolean; error?: string }> {
+  // First delete all entries for this patient
+  const { error: entriesError } = await supabase
+    .from('entries')
+    .delete()
+    .eq('patient_id', patientId)
+
+  if (entriesError) {
+    return { success: false, error: 'Failed to delete patient entries.' }
+  }
+
+  // Then delete the patient
+  const { error: patientError } = await supabase
+    .from('patients')
+    .delete()
+    .eq('id', patientId)
+
+  if (patientError) {
+    return { success: false, error: 'Failed to delete patient.' }
+  }
+
+  return { success: true }
+}
+
 // Admin: Log any entry type for patient
 export async function logEntry(formData: FormData): Promise<{ success: boolean; error?: string }> {
   const fullName = formData.get('fullName')?.toString().trim()

@@ -114,26 +114,12 @@ export default async function DashboardPage() {
             </div>
           </div>
 
-          {/* High Value Actions */}
-          <div className="space-y-3">
-            {/* Google Review - 5 entries */}
-            <ActionButton
-              actionType="review"
-              label="Leave a Google Review"
-              points={5}
-              url="https://g.page/mussofamilydentistry/review"
-              isClaimed={claimedActions.has('review')}
-              featured
-              icon={
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-                </svg>
-              }
-            />
-          </div>
-
-          {/* Referral Banner - Premium Navy - 10 entries */}
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#243f5c] via-[#1e3a5f] to-[#172d4a] px-6 py-5 text-white shadow-lg shadow-blue-900/15">
+          {/* Referral Banner - Premium Navy - 10 entries (Highest Value) */}
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#243f5c] via-[#1e3a5f] to-[#172d4a] px-6 py-5 text-white shadow-lg shadow-blue-900/15 ring-2 ring-amber-400/50">
+            {/* High value badge */}
+            <div className="absolute -top-2 -right-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm z-10">
+              HIGHEST VALUE
+            </div>
             {/* Subtle shine effect */}
             <div className="absolute inset-0 opacity-20">
               <div className="absolute top-0 right-0 w-32 h-32" style={{
@@ -154,6 +140,24 @@ export default async function DashboardPage() {
                 </p>
               </div>
             </div>
+          </div>
+
+          {/* High Value Actions */}
+          <div className="space-y-3">
+            {/* Google Review - 5 entries */}
+            <ActionButton
+              actionType="review"
+              label="Leave a Google Review"
+              points={5}
+              url="https://g.page/mussofamilydentistry/review"
+              isClaimed={claimedActions.has('review')}
+              featured
+              icon={
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                </svg>
+              }
+            />
           </div>
 
           {/* Social Follows - Lower value */}
