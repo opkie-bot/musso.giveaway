@@ -96,7 +96,7 @@ export default async function AdminPage() {
             {activeGiveaway && participants.length > 0 && (
               <div className="bg-white rounded-2xl shadow-lg p-6">
                 <h2 className="text-lg font-semibold text-[#1e3a5f] mb-4">Leaderboard</h2>
-                <ParticipantList participants={participants} />
+                <ParticipantList participants={participants} giveawayId={activeGiveaway.id} />
               </div>
             )}
           </div>

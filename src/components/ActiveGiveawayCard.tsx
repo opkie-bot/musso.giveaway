@@ -1,8 +1,10 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import type { Giveaway } from '@/types/database'
 import GiveawayEditForm from './GiveawayEditForm'
+import { resetGiveawayEntries } from '@/app/actions'
 
 interface ActiveGiveawayCardProps {
   giveaway: Giveaway
@@ -11,6 +13,19 @@ interface ActiveGiveawayCardProps {
 
 export default function ActiveGiveawayCard({ giveaway, participantCount }: ActiveGiveawayCardProps) {
   const [isEditing, setIsEditing] = useState(false)
+  const [isResetting, setIsResetting] = useState(false)
+  const [confirmReset, setConfirmReset] = useState(false)
+  const router = useRouter()
+
+  async function handleReset() {
+    setIsResetting(true)
+    const result = await resetGiveawayEntries(giveaway.id)
+    if (result.success) {
+      router.refresh()
+    }
+    setIsResetting(false)
+    setConfirmReset(false)
+  }
 
   return (
     <>
@@ -33,15 +48,17 @@ export default function ActiveGiveawayCard({ giveaway, participantCount }: Activ
               </div>
               <span className="text-sm font-medium text-green-100/90">Active Giveaway</span>
             </div>
-            <button
-              onClick={() => setIsEditing(true)}
-              className="p-2 rounded-lg bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-colors"
-              title="Edit giveaway"
-            >
-              <svg className="w-4 h-4 text-green-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-              </svg>
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setIsEditing(true)}
+                className="p-2 rounded-lg bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-colors"
+                title="Edit giveaway"
+              >
+                <svg className="w-4 h-4 text-green-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+              </button>
+            </div>
           </div>
 
           <div className="text-2xl font-bold tracking-tight mb-1">{giveaway.title}</div>
@@ -53,9 +70,41 @@ export default function ActiveGiveawayCard({ giveaway, participantCount }: Activ
             {new Date(giveaway.start_date).toLocaleDateString()} - {new Date(giveaway.end_date).toLocaleDateString()}
           </div>
 
-          <div className="pt-4 border-t border-green-400/30">
-            <div className="text-3xl font-bold tracking-tight">{participantCount}</div>
-            <div className="text-green-200/80 text-sm">Total Participants</div>
+          <div className="pt-4 border-t border-green-400/30 flex items-end justify-between">
+            <div>
+              <div className="text-3xl font-bold tracking-tight">{participantCount}</div>
+              <div className="text-green-200/80 text-sm">Total Participants</div>
+            </div>
+
+            {/* Reset Button */}
+            {confirmReset ? (
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={handleReset}
+                  disabled={isResetting}
+                  className="px-3 py-1.5 rounded-lg bg-red-500 hover:bg-red-600 text-white text-xs font-medium transition-colors disabled:opacity-50"
+                >
+                  {isResetting ? 'Resetting...' : 'Confirm'}
+                </button>
+                <button
+                  onClick={() => setConfirmReset(false)}
+                  className="px-3 py-1.5 rounded-lg bg-white/20 hover:bg-white/30 text-white text-xs font-medium transition-colors"
+                >
+                  Cancel
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => setConfirmReset(true)}
+                className="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-green-100 text-xs font-medium transition-colors flex items-center gap-1.5"
+                title="Reset all entries"
+              >
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+                Reset Entries
+              </button>
+            )}
           </div>
         </div>
       </div>

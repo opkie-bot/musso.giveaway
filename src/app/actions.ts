@@ -329,6 +329,35 @@ export async function deletePatient(patientId: string): Promise<{ success: boole
   return { success: true }
 }
 
+// Admin: Reset all entries for a giveaway (keeps patients, removes entries)
+export async function resetGiveawayEntries(giveawayId: string): Promise<{ success: boolean; error?: string }> {
+  const { error } = await supabase
+    .from('entries')
+    .delete()
+    .eq('giveaway_id', giveawayId)
+
+  if (error) {
+    return { success: false, error: 'Failed to reset entries.' }
+  }
+
+  return { success: true }
+}
+
+// Admin: Reset entries for a specific patient in a giveaway
+export async function resetPatientEntries(patientId: string, giveawayId: string): Promise<{ success: boolean; error?: string }> {
+  const { error } = await supabase
+    .from('entries')
+    .delete()
+    .eq('patient_id', patientId)
+    .eq('giveaway_id', giveawayId)
+
+  if (error) {
+    return { success: false, error: 'Failed to reset patient entries.' }
+  }
+
+  return { success: true }
+}
+
 // Admin: Log any entry type for patient
 export async function logEntry(formData: FormData): Promise<{ success: boolean; error?: string }> {
   const fullName = formData.get('fullName')?.toString().trim()
